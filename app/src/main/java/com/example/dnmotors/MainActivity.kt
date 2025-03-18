@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -15,6 +16,8 @@ import com.example.dnmotors.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 
@@ -32,6 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         val openFragment = intent.getStringExtra("OPEN_FRAGMENT")
         Log.d("MyLog", "Open fragment: $openFragment")
+        Log.d("MyLog", "Received OPEN_FRAGMENT in MainActivity: $openFragment") // Лог для проверки
+
         if (openFragment == "CarFragment") {
             navController.navigate(R.id.carFragment) // Переход к CarFragment
         }
@@ -40,26 +45,10 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         enableEdgeToEdge()
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.signOut -> {
-                auth.signOut()
-                startActivity(Intent(this, SignInActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                })
-
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        val firestore = FirebaseFirestore.getInstance()
+        firestore.firestoreSettings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true) // Разрешает кэширование данных
+            .build()
     }
 
 

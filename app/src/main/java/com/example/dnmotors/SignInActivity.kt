@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class SignInActivity : AppCompatActivity() {
@@ -45,7 +46,7 @@ class SignInActivity : AppCompatActivity() {
         }
 
         // Авторизация через Email/Password
-        binding.bSignInWithEmail.setOnClickListener {
+        binding.btnSignIn.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 
@@ -70,11 +71,11 @@ class SignInActivity : AppCompatActivity() {
             insets
         }
 
-        binding.bSignInGoogle.setOnClickListener {
+        binding.btnGoogle.setOnClickListener {
             signInWithGoogle()
         }
         // Переход на страницу регистрации
-        binding.tvRegister.setOnClickListener {
+        binding.tvSignUp.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
@@ -97,17 +98,45 @@ class SignInActivity : AppCompatActivity() {
 
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String){
+    private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential).addOnCompleteListener {
-            if(it.isSuccessful){
+        auth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 Log.d("MyLog", "Google sign in done")
-                checkAuthState()
-            }
-            else{ Log.d("MyLog", "Google sign in error")}
-        }
 
+                val user = auth.currentUser
+                if (user != null) {
+                    val name = user.displayName ?: "No Name"
+                    val email = user.email ?: "No Email"
+
+                    Log.d("MyLog", "User Name: $name, Email: $email")
+
+                    val userRef = FirebaseFirestore.getInstance().collection("users").document(user.uid)
+
+                    userRef.get().addOnSuccessListener { document ->
+                        if (!document.exists()) {
+                            val newUser = hashMapOf(
+                                "name" to name,
+                                "email" to email
+                            )
+                            userRef.set(newUser).addOnSuccessListener {
+                                Log.d("MyLog", "User data saved in Firestore")
+                            }.addOnFailureListener { e ->
+                                Log.d("MyLog", "Firestore write error: ${e.message}")
+                            }
+                        }
+                    }
+
+                }
+
+                checkAuthState()
+            } else {
+                Log.d("MyLog", "Google sign in error")
+            }
+        }
     }
+
+
     private fun checkAuthState(){
         if(auth.currentUser != null){
             val intent = Intent(this, MainActivity::class.java)
@@ -116,10 +145,10 @@ class SignInActivity : AppCompatActivity() {
             finish()
         }
     }
-    private fun navigateToCarFragment() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("OPEN_FRAGMENT", "CarFragment")
-        startActivity(intent)
-        finish()
-    }
+//    private fun navigateToCarFragment() {
+//        val intent = Intent(this, MainActivity::class.java)
+//        intent.putExtra("OPEN_FRAGMENT", "CarFragment")
+//        startActivity(intent)
+//        finish()
+//    }
 }
