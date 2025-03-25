@@ -13,7 +13,7 @@ class FavouritesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Подключаем разметку для фрагмента
+
         return inflater.inflate(R.layout.fragment_favourites, container, false)
     }
 }

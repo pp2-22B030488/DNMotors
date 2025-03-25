@@ -64,7 +64,7 @@ class MessagesFragment : Fragment() {
                     val message = s.getValue(Message::class.java)
                     if (message != null) messages.add(message)
                 }
-                adapter.submitList(messages.toList())  // Создание нового списка
+                adapter.submitList(messages.toList())
                 adapter.notifyDataSetChanged()
             }
 

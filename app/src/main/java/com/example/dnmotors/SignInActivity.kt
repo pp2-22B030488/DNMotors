@@ -140,15 +140,9 @@ class SignInActivity : AppCompatActivity() {
     private fun checkAuthState(){
         if(auth.currentUser != null){
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("OPEN_FRAGMENT", "CarFragment") // Передаём ключ
+            intent.putExtra("OPEN_FRAGMENT", "CarFragment")
             startActivity(intent)
             finish()
         }
     }
-//    private fun navigateToCarFragment() {
-//        val intent = Intent(this, MainActivity::class.java)
-//        intent.putExtra("OPEN_FRAGMENT", "CarFragment")
-//        startActivity(intent)
-//        finish()
-//    }
 }

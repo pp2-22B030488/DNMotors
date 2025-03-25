@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary_red">#8B0000</color>
     <color name="primary_back">#E8F5F3</color>
+    <color name="credit_term_button">#E0EDFD</color>
 </resources>

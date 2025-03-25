@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("MyLog", "Received OPEN_FRAGMENT in MainActivity: $openFragment") // Лог для проверки
 
         if (openFragment == "CarFragment") {
-            navController.navigate(R.id.carFragment) // Переход к CarFragment
+            navController.navigate(R.id.carFragment)
         }
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         val firestore = FirebaseFirestore.getInstance()
         firestore.firestoreSettings = FirebaseFirestoreSettings.Builder()
-            .setPersistenceEnabled(true) // Разрешает кэширование данных
+            .setPersistenceEnabled(true)
             .build()
     }
 
