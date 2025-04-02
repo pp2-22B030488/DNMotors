@@ -21,7 +21,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/messagesFragment"
+        android:id="@+id/chatFragment"
         android:icon="@drawable/ic_bottom_message"
         android:title="Provider"
         app:showAsAction="ifRoom" />

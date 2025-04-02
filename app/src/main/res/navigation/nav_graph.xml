@@ -69,7 +69,15 @@
         android:name="com.example.dnmotors.carFragment.сredit.RequestCreditFragment"
         android:label="RequestCredit"
         tools:layout="@layout/fragment_request_credit" />
-
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.dnmotors.messagesFragment.ChatFragment"
+        android:label="ChatFragment"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
 
 
 </navigation>
