@@ -80,14 +80,14 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/carCost"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="3 000 000"
-                        android:inputType="number"
-                        android:paddingStart="12dp"
-                        android:paddingBottom="12dp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/carCost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3 000 000"
+                    android:inputType="number"
+                    android:paddingStart="12dp"
+                    android:paddingBottom="12dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
